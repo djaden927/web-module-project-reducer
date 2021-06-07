@@ -1,9 +1,10 @@
-import { ADD_ONE, APPLY_NUMBER, CHANGE_OPERATION } from './../actions';
+import TotalDisplay from '../components/TotalDisplay';
+import { ADD_ONE, APPLY_NUMBER, CHANGE_OPERATION, CLEAR_DISPLAY, MEMORY_CLEAR, MEMORY_PLUS, MEMORY_RECALL } from './../actions';
 
 export const initialState = {
-    total: 100,
-    operation: "*",
-    memory: 100
+    total: 0,
+    operation: "+",
+    memory: 0
 }
 
 const calculateResult = (num1, num2, operation) => {
@@ -35,6 +36,27 @@ const reducer = (state, action) => {
             return ({
                 ...state,
                 operation: action.payload
+            });
+
+        case(CLEAR_DISPLAY):
+            return ({
+                ...state,
+                total: 0
+            });
+        case(MEMORY_PLUS):
+            return ({
+                ...state,
+                memory: state.total
+            });
+        case(MEMORY_RECALL):
+            return ({
+                ...state,
+                total: calculateResult(state.total, state.memory, state.operation)
+            });
+        case(MEMORY_CLEAR):
+            return ({
+                ...state,
+                memory: 0
             });
             
         default:
